@@ -2,6 +2,7 @@ import pykd
 import sys
 import traceback
 import command
+import os
 
 from utils import *
 
@@ -9,7 +10,8 @@ def set_alias(a, v):
     pykd.dbgCommand("as {} {}".format(a, v))
 
 def wrap_command(cmd, real_cmd):
-    set_alias(cmd, "!py -g winext\TWindbg\command_handler.py {}".format(real_cmd))
+    script_path = os.path.dirname(os.path.realpath(__file__))
+    set_alias(cmd, "!py -g {} {}".format(os.path.join(script_path, "command_handler.py"), real_cmd))
 
 def wrap_all_commands():
     for cmd in command.all_commands:
